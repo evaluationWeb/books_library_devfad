@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Controller\AbstractController;
 use App\Service\UserService;
+use Mithridatem\Validation\ValidationError;
 
 class UserController extends AbstractController
 {
@@ -15,8 +16,8 @@ class UserController extends AbstractController
         $this->userService = new UserService();
     }
 
-      /**
-     * Méthode pour s'enregistrer' sur la plateforme (créer un compte)
+    /**
+     * Méthode pour s'enregistrer sur la plateforme (créer un compte)
      * @return mixed $this->render template_register.php
      */
     public function register(): mixed
