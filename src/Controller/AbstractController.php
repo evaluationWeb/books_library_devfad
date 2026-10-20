@@ -74,4 +74,15 @@ abstract class AbstractController
 
         return !empty($token) && !empty($sessionToken) && hash_equals($sessionToken, $token);
     }
+
+    /**
+     * Méthode qui vérifie le droit d'accés à la ressource
+     * @param string $grant droit authorisé à accéder à la ressource
+     * @return void redirection vers l'accueil si le droit (grant) est absent
+     */
+    protected function isGranted(string $grant): void
+    {
+        //Test si le droit est invalide on redirige vers l'accueil
+        if (!str_contains($_SESSION["user"]["grant"], $grant)) header('Location:/');
+    }
 }
