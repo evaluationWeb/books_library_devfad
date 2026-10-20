@@ -18,7 +18,7 @@ class CategoryController extends AbstractController
     public function addCategory(): mixed
     {
         //Test si le formulaire est soumis
-        if (isset($_POST["submit"])) {
+        if ($this->isFormSubmitted($_POST)) {
             //Traitement ajout de la categorie
             $data = $this->categoryService->insertCategory();
         }
