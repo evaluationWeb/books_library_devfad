@@ -16,8 +16,8 @@
             <!-- Block liste des catégorie -->
             <?php foreach ($data ?? [] as $category): ?>
                 <article>
-                    <h2><?= $category->getId() ?></h2>
-                    <p><?= $category->getName() ?></p>
+                    <h2><?= htmlspecialchars($category->getId(), ENT_QUOTES, 'UTF-8') ?></h2>
+                    <p><?= htmlspecialchars($category->getName(), ENT_QUOTES, 'UTF-8') ?></p>
                 </article>
             <?php endforeach ?>
         </section>
