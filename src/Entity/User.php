@@ -29,10 +29,10 @@ class User
 
     //Constructeur
     public function __construct(
-        string $firstname,
-        string $lastname,
-        string $email,
-        string $password
+        ?string $firstname,
+        ?string $lastname,
+        ?string $email,
+        ?string $password
     ) {
         $this->firstname = $firstname;
         $this->lastname = $lastname;
@@ -53,46 +53,46 @@ class User
         $this->id = $id;
     }
 
-    public function getFirstname(): string
+    public function getFirstname(): ?string
     {
         return $this->firstname;
     }
 
 
-    public function setFirstname(string  $firstname): void
+    public function setFirstname(?string  $firstname): void
     {
         $this->firstname = $firstname;
     }
 
-    public function getLastname(): string
+    public function getLastname(): ?string
     {
         return $this->lastname;
     }
 
 
-    public function setLastname(string  $lastname): void
+    public function setLastname(?string  $lastname): void
     {
         $this->lastname = $lastname;
     }
 
-    public function getEmail(): string
+    public function getEmail(): ?string
     {
         return $this->email;
     }
 
 
-    public function setEmail(string  $email): void
+    public function setEmail(?string  $email): void
     {
         $this->email = $email;
     }
 
-    public function getPassword(): string
+    public function getPassword(): ?string
     {
         return $this->password;
     }
 
 
-    public function setPassword(string  $password): void
+    public function setPassword(?string  $password): void
     {
         $this->password = $password;
     }
@@ -148,10 +148,10 @@ class User
     {
         //Création d'un objet User
         $newUser = new User(
-            $user["firstname"],
-            $user["lastname"],
-            $user["email"],
-            $user["password"]
+            $user["firstname"] ?? null,
+            $user["lastname"] ?? null,
+            $user["email"] ?? null,
+            $user["password"] ?? null
         );
         
         //Set des attributs
