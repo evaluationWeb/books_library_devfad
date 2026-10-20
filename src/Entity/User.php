@@ -2,15 +2,26 @@
 
 namespace App\Entity;
 
+use Mithridatem\Validation\Attributes\Email;
+use Mithridatem\Validation\Attributes\Length;
+use Mithridatem\Validation\Attributes\NotBlank;
 
 class User
 {
     //Attributs
     private ?int $id;
-    private string $firstname;
-    private string $lastname;
-    private string $email;
-    private string $password;
+    #[NotBlank]
+    #[Length(min:3, max:50)]
+    private ?string $firstname;
+    #[NotBlank]
+    #[Length(min:3, max:50)]
+    private ?string $lastname;
+    #[NotBlank]
+    #[Email]
+    private ?string $email;
+    #[NotBlank]
+    #[Length(min:8, max:50)]
+    private ?string $password;
     private \DateTimeImmutable $createdAt;
     private ?\DateTimeImmutable $updatedAt;
     private ?string $imgProfil;
