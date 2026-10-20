@@ -15,12 +15,17 @@
         <h1>Ajouter une categorie</h1>
         <form action="" method="post">
             <input type="text" name="category_name" placeholder="Saisir le nom de la categorie">
-            <?php foreach ($data[0]["validation"] ?? [] as $key => $value): ?>
-                <p><?= $value[0]->message ?></p>
+            <!-- Block erreur de validation -->
+            <?php foreach ($data[0]["validation"] ?? [] as $property => $violations): ?>
+                <?php foreach ($violations as $error) : ?>
+                    <p><?=  $error->message ?></p>
+                <?php endforeach ?>
             <?php endforeach ?>
             <input type="submit" value="Ajouter" name="submit">
         </form>
-        <p><?= $data[0]["msg"] ?? "" ?></p>
+        <!--Block erreur -->
+        <p><?= $data[0]["error"] ?? "" ?></p>
+        <!--Block succes -->
         <p><?= $data[0]["success"] ?? "" ?></p>
     </main>
 </body>

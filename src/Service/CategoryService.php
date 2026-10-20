@@ -31,48 +31,45 @@ class CategoryService
 
     /**
      * Méthode qui gére la logique d'ajout de categorie
-     * @return string $message 
+     * @return array $errors 
      */
-    public function insertCategory(): string|array
+    public function insertCategory(): array
     {
+        //Tableau Erreurs
         $errors = [];
 
-        //test si le champ est vide
-        if (empty($_POST["category_name"]) || $_POST["category_name"] == 'null') {
-            $errors["msg"] = "Veuillez remplir le nom de categorie";
+        //1 Nettoyage des données
+        Tools::sanitizeArray($_POST);
+
+        //2 Validations
+        //3 Hydratation en Objet Category
+        $newCategory = Category::hydrate($_POST);
+
+        //4 Récupérer les erreurs de validations
+        $errors_validation =  $this->validator->validate($newCategory);
+
+        //5 Test si il y à des erreurs de validation
+        if (!empty($errors_validation)) {
+            //ajouter au tableau
+            $errors["validation"] = $errors_validation;
+            return $errors;
         }
-        
-        //test si on n'à pas d' erreurs
-        if (empty($errors)) {
 
-            //Nettoyage des données
-            Tools::sanitizeArray($_POST);
+        //6 Récupération de la catégorie
+        $category = $this->categoryRepository->findByName($_POST["category_name"]);
 
-            //Récupération de la catégorie
-            $category = $this->categoryRepository->findByName($_POST["category_name"]);
-
-            //test si la catégorie existe déja
-            if ($category && $category != null) {
-                $errors["msg"]= "La categorie : " . $_POST["category_name"] .  " existe déja";
-            }
+        //7 Test si la catégorie existe déja
+        if ($category) {
+            $errors["error"] = "La categorie : " . $_POST["category_name"] .  " existe déja";
+            return $errors;
         }
-        
-        if (empty($errors)) {
-            //Hydratation en Objet Category
-            $newCategory = Category::hydrate($_POST);
 
-            //Récupérer les erreurs de validations
-            $errors_validation =  $this->validator->validate($newCategory);
-            //Test si il y à des erreurs de validation
-            if (!empty($errors_validation)) {
-                //ajouter au tableau
-                $errors["validation"] = $errors_validation;   
-            } else {
-                $this->categoryRepository->create($newCategory);
-                $errors["success"] = "La catégorie : " . $_POST["category_name"] . " a été ajouté avec succés";
-            }
-        }
-    
+        //8 Ajout en BDD
+        $this->categoryRepository->create($newCategory);
+
+        //9 Messsage de success
+        $errors["success"] = "La catégorie : " . $_POST["category_name"] . " a été ajouté avec succés";
+
         return $errors;
     }
 }
