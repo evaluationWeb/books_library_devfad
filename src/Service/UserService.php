@@ -9,16 +9,21 @@ use Mithridatem\Validation\Validator;
 
 class UserService
 {
-    //Attribut
+    //Attributs
     private UserRepository $userRepository;
     private Validator $validator;
 
     public function __construct()
     {
+        //Injection des dépendances
         $this->userRepository = new UserRepository();
         $this->validator = new Validator();
     }
 
+    /**
+     * Méthode qui gére la logique métier d'enregistrement d'un nouveau compte en BDD
+     * @return array $errors Tableau d'erreur/validation/success
+     */
     public function insertUser(): array
     {
         $errors = [];
@@ -44,18 +49,17 @@ class UserService
             return $errors;
         }
 
-        //6 Récupérer le compte
-        $userFind = $this->userRepository->findByEmail($_POST["email"]);
+        //6 Récupérer le compte par son email
+        $userFindByEmail = $this->userRepository->findByEmail($user->getEmail());
 
         //7 Tester si le compte existe
-        if ($userFind) {
+        if ($userFindByEmail) {
             $errors["error"] = "Le compte existe déja";
             return $errors;
         }
 
         //8 Hasher le mot de passe
-        $hash = password_hash($_POST["password"], PASSWORD_DEFAULT);
-
+        $hash = password_hash($user->getPassword(), PASSWORD_DEFAULT);
 
         //9 Setter le mot de passe hashé
         $user->setPassword($hash);
@@ -63,6 +67,7 @@ class UserService
         //10 Ajouter en BDD le compte
         $this->userRepository->create($user);
 
+        //11 Message de succés d'enregistrement
         $errors["success"] = "Le compte " . $user->getEmail() . " a été ajouté en BDD";
         
         return $errors;
