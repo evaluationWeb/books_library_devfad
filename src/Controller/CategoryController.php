@@ -15,6 +15,10 @@ class CategoryController extends AbstractController
         $this->categoryService = new CategoryService();
     }
 
+    /**
+     * Méthode pour ajouter une catégorie
+     * @return mixed $this->render template_add_category.php
+     */
     public function addCategory(): mixed
     {
         //Test si le formulaire est soumis
@@ -26,6 +30,10 @@ class CategoryController extends AbstractController
         return $this->render('add_category', 'Ajouter une catégorie', $data ?? []);
     }
 
+    /**
+     * Méthode pour afficher la liste des catégories
+     * @return mixed $this->render template_show_all_categories.php
+     */
     public function showAllCategorie(): mixed
     {
         //Récupération de la liste des categories
