@@ -16,7 +16,7 @@
         <form action="" method="post">
             <input type="text" name="category_name" placeholder="Saisir le nom de la categorie">
             <!-- Block erreur de validation -->
-            <?php foreach ($data[0]["validation"] ?? [] as $property => $violations): ?>
+            <?php foreach ($data["validation"] ?? [] as $property => $violations): ?>
                 <?php foreach ($violations as $error) : ?>
                     <p><?=  $error->message ?></p>
                 <?php endforeach ?>
@@ -24,9 +24,9 @@
             <input type="submit" value="Ajouter" name="submit">
         </form>
         <!--Block erreur -->
-        <p><?= $data[0]["error"] ?? "" ?></p>
+        <p><?= $data["error"] ?? "" ?></p>
         <!--Block succes -->
-        <p><?= $data[0]["success"] ?? "" ?></p>
+        <p><?= $data["success"] ?? "" ?></p>
     </main>
 </body>
 
