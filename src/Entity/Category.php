@@ -49,6 +49,7 @@ class Category
         if (isset($category["id"])) {
             $newCategory->setId($category["id"]);
         }
+        
         //retourner un objet Category
         return $newCategory;
     }
