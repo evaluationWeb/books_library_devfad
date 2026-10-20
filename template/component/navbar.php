@@ -10,7 +10,7 @@
 			<li><a href="/login">Connexion</a></li>
 		<?php else : ?>
 			<li><a href="/category/new">Ajouter une catégorie</a></li>
-			<?= htmlspecialchars($_SESSION["user"]["firstname"] . " connecté ",  ENT_QUOTES, 'UTF-8') ?>
+			<li><a href="/logout"><?= htmlspecialchars($_SESSION["user"]["firstname"] . " connecté ",  ENT_QUOTES, 'UTF-8') ?></a></li>
 		<?php endif ?>
 	</ul>
 </nav>
