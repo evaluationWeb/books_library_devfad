@@ -15,16 +15,26 @@ class UserController extends AbstractController
         $this->userService = new UserService();
     }
 
+      /**
+     * Méthode pour s'enregistrer' sur la plateforme (créer un compte)
+     * @return mixed $this->render template_register.php
+     */
     public function register(): mixed
     {
         //Tester si le formulaire est soumis
         if (isset($_POST["submit"])) {
-            $data["msg"] = $this->userService->insertUser();
+            //Traitement de l'inscription
+            $data = $this->userService->insertUser();
         }
+
         //Retourne la vue 
         return $this->render('register', 'Inscription', $data ?? []);
     }
 
+    /**
+     * Méthode pour se connecter sur la plateforme (se connecter)
+     * @return mixed $this->render template_login.php
+     */
     public function login():mixed 
     {
         //Test si le formulaire est soumis
