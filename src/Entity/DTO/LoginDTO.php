@@ -11,7 +11,7 @@ final readonly class LoginDTO
 {
     public function __construct(
         #[NotBlank]
-        #[Email(min: 2, max: 50)]
+        #[Email]
         public ?string $email,
         #[NotBlank]
         #[Length(min:8, max:50)]
