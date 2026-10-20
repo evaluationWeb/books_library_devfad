@@ -5,69 +5,67 @@ namespace App\Service;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use App\Utils\Tools;
+use Mithridatem\Validation\Validator;
 
 class UserService
 {
     //Attribut
     private UserRepository $userRepository;
+    private Validator $validator;
 
     public function __construct()
     {
         $this->userRepository = new UserRepository();
+        $this->validator = new Validator();
     }
 
-    public function insertUser(): string
+    public function insertUser(): array
     {
-        //Tester si les champs obligatoire sont vides
-        if (
-            empty($_POST["firstname"]) ||
-            empty($_POST["lastname"]) ||
-            empty($_POST["email"]) ||
-            empty($_POST["password"]) ||
-            empty($_POST["confirm-password"])
-        ) {
-            return "Veuillez remplir tous les champs du formulaire";
-        }
+        $errors = [];
 
-        //Nettoyer les données
+        //1 Nettoyer les données
         Tools::sanitizeArray($_POST);
 
-        //Tests Si email est non valide
-        if (!filter_var($_POST["email"], FILTER_VALIDATE_EMAIL)) {
-            return "L'email : " . $_POST["email"] . " est invalide";
+        //2 Hydrater un objet User
+        $user = User::hydrate($_POST);
+
+        //3 Récupération des erreurs de validation 
+        $errors_validation = $this->validator->validate($user);
+
+        //4 Tests des erreurs de validation
+        if (!empty($errors_validation)) {
+            $errors["validation"] = $errors_validation;
+            return $errors;
         }
 
-        //Tests si les 2 mot de sont différents
+        //5 Tests si les 2 mot de sont différents
         if ($_POST["password"] != $_POST["confirm-password"]) {
-            return "Les mots de passe ne sont pas identiques";
+            $errors["error"] = "Les mots de passe ne sont pas identiques";
+            return $errors;
         }
 
-        //Test si le mot de passe est plus petit que 8 caractères
-        if (strlen($_POST["password"]) < 8) {
-            return "Le mot de passe est trop court il faut 8 caractères au minimum";
+        //6 Récupérer le compte
+        $userFind = $this->userRepository->findByEmail($_POST["email"]);
+
+        //7 Tester si le compte existe
+        if ($userFind) {
+            $errors["error"] = "Le compte existe déja";
+            return $errors;
         }
 
-        //récupérer le compte
-        $user = $this->userRepository->findByEmail($_POST["email"]);
-
-        //Tester si le compte existe
-        if ($user) {
-            return "Le compte existe déja";
-        }
-
-        //Hasher le mot de passe
+        //8 Hasher le mot de passe
         $hash = password_hash($_POST["password"], PASSWORD_DEFAULT);
 
-        //hydrater l'objet User
-        $newUser = User::hydrate($_POST);
 
-        //Setter le mot de passe hashé
-        $newUser->setPassword($hash);
+        //9 Setter le mot de passe hashé
+        $user->setPassword($hash);
 
-        //Ajouter en BDD le compte
-        $this->userRepository->create($newUser);
+        //10 Ajouter en BDD le compte
+        $this->userRepository->create($user);
 
-        return "Le compte " . $_POST["email"] . " a été ajouté en BDD";
+        $errors["success"] = "Le compte " . $user->getEmail() . " a été ajouté en BDD";
+        
+        return $errors;
     }
 
     public function connectUser(): string
