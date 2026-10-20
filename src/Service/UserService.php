@@ -131,4 +131,18 @@ class UserService
         //11 Retour du tableau error/validation/success
         return $errors;
     }
+
+    /**
+     * Méthode qui gére la logique métier de la déconnexion à la plateforme
+     * @return void
+     */
+    public function disconnectUser(): void
+    {
+        //1 Suppression de la session
+        session_destroy();
+        //2 Suppression du cookie de session
+        unset($_COOKIE["PHPSESSID"]);
+        //3 Redirection vers la page d'accueil
+        header('Location:/');
+    }
 }
