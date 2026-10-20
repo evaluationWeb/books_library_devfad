@@ -46,4 +46,14 @@ class UserController extends AbstractController
         //Retourne la vue
         return $this->render('login', 'Connexion', $data ?? []);
     }
+
+    /**
+     * Méthode pour se déconnecter de la plateforme (se déconnecter)
+     * @return void
+     */
+    public function logout(): void 
+    {
+        //Appel de la méthode disconnectUser
+        $this->userService->disconnectUser();
+    }
 }
