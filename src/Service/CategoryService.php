@@ -48,7 +48,7 @@ class CategoryService
         //4 Récupérer les erreurs de validations
         $errors_validation =  $this->validator->validate($newCategory);
 
-        //5 Test si il y à des erreurs de validation
+        //5 Test si il y à des erreurs de validation (champ vide, taille min: 2 max : 50)
         if (!empty($errors_validation)) {
             //ajouter au tableau
             $errors["validation"] = $errors_validation;
