@@ -131,7 +131,7 @@ class Book
 
     /**
      * Méthode pour transformer un tableau associatif en objet Book
-     * @param array $book tableau associatif provenant de la BDD (fetch_assoc) ou super globale POST
+     * @param array $book tableau associatif en provenance de la BDD (fetch_assoc) ou super globale POST
      * @return Book $newBook objet Book 
      */
     public static function hydrate(array $book): Book
