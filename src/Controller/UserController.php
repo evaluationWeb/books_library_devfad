@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Controller\AbstractController;
 use App\Service\UserService;
-use Mithridatem\Validation\ValidationError;
 
 class UserController extends AbstractController
 {
@@ -23,7 +22,7 @@ class UserController extends AbstractController
     public function register(): mixed
     {
         //Tester si le formulaire est soumis
-        if (isset($_POST["submit"])) {
+        if ($this->isFormSubmitted($_POST)) {
             //Traitement de l'inscription
             $data = $this->userService->insertUser();
         }
@@ -39,7 +38,7 @@ class UserController extends AbstractController
     public function login():mixed 
     {
         //Test si le formulaire est soumis
-        if (isset($_POST["submit"])) {
+        if ($this->isFormSubmitted($_POST)) {
             //Traitement de la connexion
             $data = $this->userService->connectUser();
         }
