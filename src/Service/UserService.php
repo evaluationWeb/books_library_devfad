@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Repository\UserRepository;
 use App\Utils\Tools;
 use Mithridatem\Validation\Validator;
+use App\Entity\DTO\LoginDTO;
 
 class UserService
 {
@@ -70,40 +71,52 @@ class UserService
         //11 Message de succés d'enregistrement
         $errors["success"] = "Le compte " . $user->getEmail() . " a été ajouté en BDD";
         
+        //12 Retour du tableau error/validation/success
         return $errors;
     }
 
-    public function connectUser(): string
+    /**
+     * Méthode qui gére la logique métier de connexion à la plateforme
+     * @return array $errors Tableau d'erreur/validation/success
+     */
+    public function connectUser(): array
     {
-        //Test si les champs sont remplis
-        if (empty($_POST["email"]) || empty($_POST["password"])) {
-            return "Veuillez remplir tous les champs";
-        }
+        $errors = [];
 
-        //Nettoyage des entrées utilisateurs
+        //1 Nettoyer les données
         Tools::sanitizeArray($_POST);
-        //Test si le mail est valide
-        if (!filter_var($_POST["email"], FILTER_VALIDATE_EMAIL)) {
-            return "Le format de l’email est invalide.";
+
+        //2 Créer un objet LoginDTO (représente un objet de Connexion)
+        $loginDTO = new LoginDTO($_POST["email"], $_POST["password"]);
+
+        //3 Récupération des erreurs de validation 
+        $errors_validation = $this->validator->validate($loginDTO);
+
+        //4 Tests des erreurs de validation
+        if (!empty($errors_validation)) {
+            $errors["validation"] = $errors_validation;
+            return $errors;
         }
 
-        //Récupération du compte
+        //5 Récupération du compte
         $user = $this->userRepository->findByEmail($_POST["email"]);
 
-        //Test si le compte existe
+        //6 Test si le compte existe
         if (!$user) {
-            return "Les informations de connexion ne sont pas valides";
+            $errors["error"] = "Les informations de connexion ne sont pas valides";
+            return $errors;
         }
 
-        //Test si le mot de passe est valide
+        //7 Test si le mot de passe est valide
         if (!password_verify($_POST["password"], $user->getPassword())) {
-            return "Les informations de connexion ne sont pas valides";
+            $errors["error"] = "Les informations de connexion ne sont pas valides";
+            return $errors;
         }
 
-        //Renouvellement de l'id de session
+        //8 Renouvellement de l'id de session
         session_regenerate_id(true);
 
-        //Création de la super globale de session
+        //9 Création de la super globale de session
         $_SESSION["user"] = [
             "id"=> $user->getId(),
             "firstname"=> $user->getFirstname(),
@@ -112,6 +125,10 @@ class UserService
             "grant"=> $user->getGrant() ?? ""
         ];
 
-        return "Connexion réussie";
+        //10 Message de succés de connexion
+        $errors["success"] = "Connexion réussie";
+        
+        //11 Retour du tableau error/validation/success
+        return $errors;
     }
 }
