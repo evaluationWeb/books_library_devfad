@@ -32,7 +32,7 @@ class UserRepository
             $stmt->execute();
             $id = $this->connexion->lastInsertId();
             $user->setId($id);
-        } catch(\PDOException $e) {
+        } catch (\PDOException $e) {
             echo "Erreur " . $e->getMessage();
         }
         return $user;
@@ -53,10 +53,10 @@ class UserRepository
             $stmt->bindValue(1, $email, \PDO::PARAM_STR);
             $stmt->execute();
             $data = $stmt->fetch(\PDO::FETCH_ASSOC);
-            if($data) {
+            if ($data) {
                 $user = User::hydrate($data);
             }
-        } catch(\PDOException $e) {
+        } catch (\PDOException $e) {
             echo "Erreur " . $e->getMessage();
         }
         return $user ?? null;

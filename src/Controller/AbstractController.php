@@ -13,7 +13,7 @@ abstract class AbstractController
      */
     protected function render(string $template, ?string $title, array $data = []): mixed
     {
-       return include __DIR__ . "/../../template/template_" . $template . ".php";
+        return include __DIR__ . "/../../template/template_" . $template . ".php";
     }
 
     /**
@@ -39,7 +39,7 @@ abstract class AbstractController
         header('Content-Type: application/json; charset=utf-8');
         echo json_encode($data, JSON_PRETTY_PRINT);
     }
-    
+
     /**
      * Méthode pour vérifier si un formulaire a été soumis
      * @param array $post Les données POST

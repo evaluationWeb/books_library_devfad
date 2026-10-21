@@ -28,7 +28,7 @@ class CategoryRepository
             $stmt->execute();
             $id = $this->connexion->lastInsertId();
             $category->setId($id);
-        } catch(\PDOException $e) {
+        } catch (\PDOException $e) {
             echo "Erreur : " . $e->getMessage();
         }
         return $category;
@@ -41,7 +41,7 @@ class CategoryRepository
      */
     public function findByName(string $name): ?Category
     {
-         try {
+        try {
             $sql = "SELECT c.id_category AS id, c.category_name FROM category AS c
             WHERE c.category_name = ?";
             $stmt = $this->connexion->prepare($sql);
@@ -51,7 +51,7 @@ class CategoryRepository
             if (isset($data) && $data != false) {
                 $category = Category::hydrate($data);
             }
-        } catch(\PDOException $e) {
+        } catch (\PDOException $e) {
             echo "Erreur : " . $e->getMessage();
         }
         return $category ?? null;

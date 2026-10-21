@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Entity;
+
 use App\Entity\Category;
 
 class Book
@@ -22,8 +23,7 @@ class Book
         ?string $content,
         ?\DateTimeImmutable $publishAt,
         ?string $author
-    )
-    {
+    ) {
         $this->title = $title;
         $this->content = $content;
         $this->publishAt = $publishAt;
@@ -92,7 +92,7 @@ class Book
     {
         $this->cover = $cover;
     }
-    
+
     public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->createdAt;
@@ -138,10 +138,10 @@ class Book
     {
         //Création d'un objet Book (avec les valeurs par défaut du constructeur)
         $newBook = new Book(
-            $book["title"]?? null,
-            $book["content"]?? null,
+            $book["title"] ?? null,
+            $book["content"] ?? null,
             new \DateTimeImmutable($book["publish_at"]) ?? null,
-            $book["author"]?? null
+            $book["author"] ?? null
         );
 
         //Set des autres attributs
@@ -155,7 +155,7 @@ class Book
             //Création de la catégorie
             $newCategory = new Category($category["category_name"] ?? null);
             //Set de l'id
-            $newCategory->setId($category["id_category"]?? null);
+            $newCategory->setId($category["id_category"] ?? null);
             //Ajout à la collection de catégories
             $newBook->addCategory($newCategory);
         }

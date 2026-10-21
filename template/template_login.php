@@ -16,16 +16,16 @@
         <form action="" method="post">
             <input type="email" name="email" placeholder="saisir votre email">
             <!-- Block erreur de validation Email -->
-            <?php if(isset($data["validation"]["email"])): ?>
+            <?php if (isset($data["validation"]["email"])): ?>
                 <?php foreach ($data["validation"]["email"] as $error) : ?>
-                    <p><?=  htmlspecialchars($error->message, ENT_QUOTES, 'UTF-8');  ?></p>
+                    <p><?= htmlspecialchars($error->message, ENT_QUOTES, 'UTF-8');  ?></p>
                 <?php endforeach ?>
             <?php endif ?>
             <input type="password" name="password" placeholder="saisir votre mot de passe">
             <!-- Block erreur de validation Password -->
-            <?php if(isset($data["validation"]["password"])): ?>
+            <?php if (isset($data["validation"]["password"])): ?>
                 <?php foreach ($data["validation"]["password"] as $error) : ?>
-                    <p><?=  htmlspecialchars($error->message, ENT_QUOTES, 'UTF-8');  ?></p>
+                    <p><?= htmlspecialchars($error->message, ENT_QUOTES, 'UTF-8');  ?></p>
                 <?php endforeach ?>
             <?php endif ?>
             <input type="submit" value="Connexion" name="submit">

@@ -18,7 +18,7 @@
             <!-- Block erreur de validation -->
             <?php foreach ($data["validation"] ?? [] as $property => $violations): ?>
                 <?php foreach ($violations as $error) : ?>
-                    <p><?=  $error->message ?></p>
+                    <p><?= $error->message ?></p>
                 <?php endforeach ?>
             <?php endforeach ?>
             <input type="submit" value="Ajouter" name="submit">

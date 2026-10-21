@@ -70,7 +70,7 @@ class UserService
 
         //11 Message de succés d'enregistrement
         $errors["success"] = "Le compte " . $user->getEmail() . " a été ajouté en BDD";
-        
+
         //12 Retour du tableau error/validation/success
         return $errors;
     }
@@ -118,16 +118,16 @@ class UserService
 
         //9 Création de la super globale de session
         $_SESSION["user"] = [
-            "id"=> $user->getId(),
-            "firstname"=> $user->getFirstname(),
-            "lastname"=> $user->getLastname(),
-            "email"=> $user->getEmail(),
-            "grant"=> $user->getGrant() ?? ""
+            "id" => $user->getId(),
+            "firstname" => $user->getFirstname(),
+            "lastname" => $user->getLastname(),
+            "email" => $user->getEmail(),
+            "grant" => $user->getGrant() ?? ""
         ];
 
         //10 Message de succés de connexion
         $errors["success"] = "Connexion réussie";
-        
+
         //11 Retour du tableau error/validation/success
         return $errors;
     }

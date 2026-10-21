@@ -11,16 +11,16 @@ class User
     //Attributs
     private ?int $id;
     #[NotBlank]
-    #[Length(min:3, max:50)]
+    #[Length(min: 3, max: 50)]
     private ?string $firstname;
     #[NotBlank]
-    #[Length(min:3, max:50)]
+    #[Length(min: 3, max: 50)]
     private ?string $lastname;
     #[NotBlank]
     #[Email]
     private ?string $email;
     #[NotBlank]
-    #[Length(min:8, max:50)]
+    #[Length(min: 8, max: 50)]
     private ?string $password;
     private \DateTimeImmutable $createdAt;
     private ?\DateTimeImmutable $updatedAt;
@@ -153,14 +153,14 @@ class User
             $user["email"] ?? null,
             $user["password"] ?? null
         );
-        
+
         //Set des attributs
         $newUser->setId($user["id_user"] ?? null);
         $newUser->setCreatedAt(new \DateTimeImmutable($user["created_at"] ?? "") ?? null);
         $newUser->setUpdatedAt(new \DateTimeImmutable($user["updated_at"] ?? "") ?? null);
         $newUser->setImgProfil($user["img_profil"] ?? null);
         $newUser->setGrant($user["grant"] ?? null);
-        
+
         //Retourne l'objet User
         return $newUser;
     }

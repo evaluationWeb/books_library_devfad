@@ -35,7 +35,7 @@ class UserController extends AbstractController
      * Méthode pour se connecter sur la plateforme (se connecter)
      * @return mixed $this->render template_login.php
      */
-    public function login():mixed 
+    public function login(): mixed
     {
         //Test si le formulaire est soumis
         if ($this->isFormSubmitted($_POST)) {
@@ -50,7 +50,7 @@ class UserController extends AbstractController
      * Méthode pour se déconnecter de la plateforme (se déconnecter)
      * @return void
      */
-    public function logout(): void 
+    public function logout(): void
     {
         //Appel de la méthode disconnectUser
         $this->userService->disconnectUser();

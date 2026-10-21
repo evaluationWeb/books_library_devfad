@@ -14,7 +14,7 @@ final readonly class LoginDTO
         #[Email]
         public ?string $email,
         #[NotBlank]
-        #[Length(min:8, max:50)]
+        #[Length(min: 8, max: 50)]
         public ?string $password
     ) {}
 }
